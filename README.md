@@ -393,9 +393,7 @@ instagram-marketing-ai-agent/
 └── README.md                   # This file
 ```
 
-## License
 
-MIT License - See LICENSE file for details
 
 ## Disclaimer
 
