@@ -14,7 +14,7 @@ export const botConfig = {
   // 🔐 INSTAGRAM ACCOUNT SETTINGS (Your Bot Account)
   // ============================================
   instagram: {
-    username: process.env.IGusername || "callsub.ai_bot",  // Your Instagram bot username
+    username: process.env.IGusername || "Insta Account",  // Your Instagram bot username
     password: process.env.IGpassword || "YOUR_PASSWORD",   // Your Instagram bot password
   },
 
@@ -22,7 +22,7 @@ export const botConfig = {
   // 🎯 TARGET SETTINGS (Who to Comment On)
   // ============================================
   target: {
-     accounts: ["lifebytosin","drshievag","napro_fertility_surgeon"
+     accounts: ["Targeted accounts to interact with"
     ],
 
     // How many posts to comment on PER ACCOUNT
