@@ -68,8 +68,20 @@ img.js
 # dotenv environment variables file
 twitter.js
 .env
+.env.local
 .env.test
 .env.production
+
+# Secret files and credentials
+src/secret/
+secret/
+*secret*.ts
+*secret*.js
+
+# Session and cookies
+cookies/
+*.cookie
+session/
 
 start.sh
 # parcel-bundler cache (https://parceljs.org/)
@@ -126,4 +138,9 @@ public/build
 
 # Plop js template files
 .plop-templates
-logged_in.png
+
+# Screenshots and test images
+*.png
+*.jpg
+*.jpeg
+*.gif

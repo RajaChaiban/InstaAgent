@@ -4,10 +4,49 @@ services:
     container_name: instagram-ai-mongodb
     ports:
       - "27017:27017"
+    volumes:
+      # Persistent storage for MongoDB data
+      - mongodb_data:/data/db
+      # Persistent storage for MongoDB config
+      - mongodb_config:/data/configdb
+    environment:
+      # Optional: Set MongoDB authentication (recommended for production)
+      # MONGO_INITDB_ROOT_USERNAME: admin
+      # MONGO_INITDB_ROOT_PASSWORD: changeme123
+      MONGO_INITDB_DATABASE: instagram-ai-agent
     networks:
       - instagram-ai-network
     restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: Mongo Express - Web-based MongoDB admin interface
+  # Uncomment to enable
+  # mongo-express:
+  #   image: mongo-express:latest
+  #   container_name: mongo-express
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     ME_CONFIG_MONGODB_URL: mongodb://instagram-ai-mongodb:27017/
+  #     ME_CONFIG_BASICAUTH_USERNAME: admin
+  #     ME_CONFIG_BASICAUTH_PASSWORD: admin123
+  #   depends_on:
+  #     - instagram-ai-mongodb
+  #   networks:
+  #     - instagram-ai-network
+  #   restart: always
 
 networks:
   instagram-ai-network:
-    external: true
+    driver: bridge
+
+volumes:
+  # Named volumes for persistent data storage
+  mongodb_data:
+    driver: local
+  mongodb_config:
+    driver: local

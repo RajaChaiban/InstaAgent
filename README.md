@@ -1,149 +1,404 @@
+# Instagram Marketing AI Agent
 
-## Riona AI Agent 🌸
+An intelligent Instagram automation platform that leverages AI to create authentic, context-aware social media engagement. The system uses advanced AI models (OpenRouter/Gemini) to generate natural, engaging comments on Instagram posts, with built-in smart filtering, duplicate prevention, and automated scheduling capabilities.
 
-## Support the Project 🙌
+## What It Does
 
-If you'd like to support the development of Instagram-AI-Agent, please consider contributing to the following wallet addresses:
+This bot automates Instagram engagement by:
 
-- **Bitcoin (BTC)**: 1GkWY6pjn7KoAkCnUab2MxnxeEQihknfUi
-- **Ethereum (ETH-erc20)**: 0xabb45f4d85e7d9db5de684c35ccde7239a167cbb
-- **Solana (SOL)**: EQV7fQ57zKNMFXy53WBfo2sCxtkRQVQLqj8sqWGnoyR
+- Logging into Instagram with your bot account
+- Visiting target Instagram accounts you specify
+- Reading recent posts and captions
+- Generating contextual, AI-powered comments using GPT-4, Claude, or Gemini
+- Posting comments automatically (with human-like delays)
+- Tracking all interactions in MongoDB to prevent duplicate comments
+- Running on a schedule (every X minutes) or manually via API
 
-Your support helps keep this project running and growing! 🚀
+## Key Features
 
-Riona AI Agent is an AI-powered automation tool designed for **Instagram and Twitter** to automate social media interactions such as posting, liking, and commenting. It leverages advanced AI models to generate engaging content, automate interactions, and manage social media accounts efficiently.
+- **AI-Powered Comments**: Uses OpenRouter (GPT-4, Claude, etc.) or Gemini to generate contextually relevant comments
+- **Smart Filtering**: Automatically skips posts with captions that are too short (<50 chars) or too long (>2200 chars)
+- **Duplicate Prevention**: Never comments twice on the same post (tracked via MongoDB)
+- **Automated Scheduling**: Run commenting tasks at configurable intervals (default: 10 minutes)
+- **Multi-Account Targeting**: Process multiple Instagram accounts in sequence
+- **Human-like Delays**: Configurable random delays to mimic natural behavior
+- **Statistics & Analytics**: Track engagement metrics and success rates
+- **AI Agent Training**: Train the AI to match your brand voice using YouTube videos, audio files, websites, or documents
 
-Before using the automation features, you can personalize the agent by training with the following, including:
-https://www.instagram.com/dreamlandofficial_1?igsh=NTZvcHRkNjlhYzhp
-- **YouTube Video URL** 🎥
-- **Audio File** 🎙️
-- **Portfolio or Website Link** 🌐
-- **File Formats Supported**: PDF, DOC, DOCX, TXT 📄
+## Prerequisites
 
-## Features
+Before you begin, you need:
 
-- **Instagram Automation**: Automatically log in, post photos, like posts, and leave thoughtful comments.
-- **Twitter Automation**: Automatically tweet, retweet, and like tweets.
-- **AI-Powered Content Generation**: Use Google Generative AI to create engaging captions and comments for Instagram and Twitter.
-- **Proxy Support**: Use proxies to manage multiple accounts and avoid rate limits.
-- **Cookie Management**: Save and load cookies to maintain sessions across restarts.
-
-**Upcoming Features:**
-
-GitHub automation is planned for future development.
+- **Node.js** v16 or higher
+- **Docker Desktop** (for MongoDB database)
+- **Instagram account** (for the bot to use)
+- **OpenRouter API key** (recommended) OR **Gemini API key** (free alternative)
 
 ## Installation
 
-1. **Clone the repository**:
+### Step 1: Get NPM
 
-   ```sh
-   git clone https://github.com/david-patrick-chuks/riona-ai-agent.git
-   cd riona-ai-agent
-   ```
+npm install
 
-2. **Install dependencies**:
 
-   ```sh
-   npm install
-   ```
+### Step 2: Start MongoDB Database
 
-3. **Set up environment variables**:
-   Rename the `.env.example` file to `.env` in the root directory and add your Instagram credentials. Refer to the `.env.example` file for the required variables.
-   ```dotenv # Instagram credentials
-   IGusername=your_instagram_username
-   IGpassword=your_instagram_password 
-   
-   Xusername= #Twitter username
-   Xpassword= #Twitter password
+```bash
+docker-compose up -d
+```
 
-   MONGODB_URI= #MongoDB URI
-   ```
+This starts MongoDB in a Docker container on port 27017.
 
-## MongoDB Setup (Using Docker)
+**Verify it's running:**
+```bash
+docker ps
+```
 
-1. **Install Docker**:
-   If you don't have Docker installed, download and install it from the [official website](https://www.docker.com/products/docker-desktop/)
-2. **Run MongoDB using Docker Container**:
+### Step 3: Configure Environment Variables
 
-    **Option 1:**
-      ```sh
-      docker run -d -p 27017:27017 --name instagram-ai-mongodb mongodb/mongodb-community-server:latest
-      ```
-    **Option 2:**
-      ```sh
-      docker run -d -p 27017:27017 --name instagram-ai-mongodb -v mongodb_data:/data/db mongodb/mongodb-community-server:latest
-      ```   
-      (Option 2: use this if you want to have like a permanent storage in you so your data won't be lost or remove if you stop or remove your Docker container)
-3. **Modify the MONGODB_URI in the .env file**:
-   ```dotenv
-   MONGODB_URI=mongodb://localhost:27017/instagram-ai-agent
-   ```
-4. **Verify the connection**:
-   Open a new terminal and run the following command:
-   ```sh
-   docker ps
-   ```
-   You should see the MongoDB container running.
+Create a `.env` file in the root directory with:
 
-   Docker Commands (Additional Info):
-   - To stop the MongoDB container:
-     ```sh
-     docker stop instagram-ai-mongodb
-     ```
-   - To start the MongoDB container:
-       ```sh
-       docker start instagram-ai-mongodb
-       ```
-   - To remove the MongoDB container:
-      ```sh
-      docker rm instagram-ai-mongodb
-      ```
-   - To remove the MongoDB container and its data:
-      ```sh
-      docker rm -v instagram-ai-mongodb
-      ```
+```env
+# Instagram Credentials
+IGusername=your_instagram_username
+IGpassword=your_instagram_password
 
-## Usage
+# AI Provider (Choose one)
+AI_PROVIDER=openrouter
 
-1. **Run the agent**:
-   ```sh
-   npm start
-   ```
-   Note: The specific platform (Instagram, Twitter) and actions performed by the agent are typically configured through environment variables in the `.env` file, or by selections made if the application prompts for choices at runtime.
+# OpenRouter (Recommended - $0.01-0.05 per comment)
+OPENROUTER_API_KEY=your_openrouter_key
+OPENROUTER_MODEL=openai/gpt-4o
+
+# OR use Gemini (Free alternative)
+GEMINI_API_KEY_1=your_gemini_key_1
+GEMINI_API_KEY_2=your_gemini_key_2
+GEMINI_API_KEY_3=your_gemini_key_3
+
+# Database
+MONGODB_URI=mongodb://localhost:27017/instagram-ai-agent
+
+# Server
+PORT=3000
+SESSION_SECRET=your_random_secret_key
+```
+
+**Get API Keys:**
+- **OpenRouter**: https://openrouter.ai/keys (requires payment)
+- **Gemini**: https://makersuite.google.com/app/apikey (free)
+
+### Step 5: Configure Target Accounts
+
+Edit `src/config/botConfig.ts` and add the Instagram accounts you want to comment on:
+
+```typescript
+target: {
+  accounts: [
+    "target_account_1",
+    "target_account_2",
+    "target_account_3",
+  ],
+  maxPostsToInteract: 1,  // Number of posts per account per run
+}
+```
+
+### Step 6: Start the Application
+
+```bash
+npm start
+```
+
+The server will start on `http://localhost:3000`
+
+## How to Use
+
+### Option 1: Manual Bot Run
+
+Trigger a single bot run manually:
+
+```bash
+curl -X POST http://localhost:3000/api/run-bot
+```
+
+This will:
+1. Log into Instagram
+2. Visit each target account
+3. Find recent posts
+4. Generate and post AI comments
+5. Save results to MongoDB
+
+### Option 2: Automated Scheduling
+
+Start the scheduler to run automatically every 10 minutes:
+
+```bash
+curl -X POST http://localhost:3000/api/scheduler/start
+```
+
+**Check scheduler status:**
+```bash
+curl http://localhost:3000/api/scheduler/status
+```
+
+**Stop scheduler:**
+```bash
+curl -X POST http://localhost:3000/api/scheduler/stop
+```
+
+### Option 3: View Statistics
+
+Check your engagement metrics for the last 7 days:
+
+```bash
+curl http://localhost:3000/api/smart-comment/stats?days=7
+```
+
+Example response:
+```json
+{
+  "success": true,
+  "stats": {
+    "period": "Last 7 days",
+    "total": 150,
+    "successful": 142,
+    "failed": 8,
+    "successRate": 94.67
+  }
+}
+```
+
+## Configuration Options
+
+### Bot Configuration (`src/config/botConfig.ts`)
+
+```typescript
+export const botConfig = {
+  // Instagram credentials
+  instagram: {
+    username: process.env.IGusername || "",
+    password: process.env.IGpassword || "",
+  },
+
+  // Target accounts to comment on
+  target: {
+    accounts: ["account1", "account2"],
+    maxPostsToInteract: 1,
+  },
+
+  // AI settings
+  ai: {
+    provider: "openrouter",  // or "gemini"
+    openrouter: {
+      apiKey: process.env.OPENROUTER_API_KEY,
+      model: "openai/gpt-4o",  // or "anthropic/claude-3.5-sonnet"
+    },
+    prompt: "Generate a relevant, engaging comment...",
+  },
+
+  // Timing (human-like delays)
+  timing: {
+    minDelay: 2000,           // 2 seconds
+    maxDelay: 5000,           // 5 seconds
+    afterLogin: 3000,
+    betweenPosts: {
+      min: 5000,
+      max: 10000,
+    },
+  },
+
+  // Smart filtering
+  filtering: {
+    captionLength: {
+      enabled: true,
+      min: 50,              // Skip very short captions
+      max: 2200,            // Skip very long captions
+    },
+    skipDuplicates: true,   // Never comment twice
+  },
+
+  // Scheduler
+  scheduler: {
+    enabled: false,         // Auto-start on launch
+    interval: 10,           // Run every 10 minutes
+  },
+};
+```
+
+### Available AI Models (OpenRouter)
+
+- **openai/gpt-4o** - Latest GPT-4 (best quality, ~$0.01-0.05/comment)
+- **anthropic/claude-3.5-sonnet** - Best for creative comments
+- **openai/gpt-3.5-turbo** - Budget-friendly option (~$0.001/comment)
+- **meta-llama/llama-3.1-405b-instruct** - Open source alternative
+
+## API Endpoints
+
+### Bot Control
+- `POST /api/run-bot` - Manually trigger bot run
+- `POST /api/smart-comment/run` - Run smart comment service
+- `GET /api/smart-comment/stats?days=7` - Get comment statistics
+
+### Scheduler Control
+- `POST /api/scheduler/start` - Start automated scheduler
+- `POST /api/scheduler/stop` - Stop scheduler
+- `POST /api/scheduler/run-now` - Trigger immediate run
+- `GET /api/scheduler/status` - Get scheduler status
+
+## Training the AI Agent (Optional)
+
+Personalize the AI's commenting style by training it on your content:
+
+### Train from YouTube Video
+```bash
+npm run train:youtube
+# Enter YouTube URL when prompted
+```
+
+### Train from Audio File
+```bash
+npm run train:audio
+# Select audio file when prompted
+```
+
+### Train from Website
+```bash
+npm run train:link
+# Enter website URL when prompted
+```
+
+Supported formats: PDF, DOC, DOCX, TXT, MP3, WAV
+
+## How It Works
+
+### Smart Comment Flow
+
+1. **Login**: Bot logs into Instagram using your credentials
+2. **Cookie Management**: Saves session cookies to avoid re-login
+3. **Target Selection**: Loads target accounts from config
+4. **Post Discovery**: Fetches recent posts from each account
+5. **Smart Filtering**:
+   - Checks if post was already commented on (MongoDB lookup)
+   - Validates caption length (50-2200 characters)
+   - Skips if filters fail
+6. **AI Generation**: Sends caption to OpenRouter/Gemini for comment generation
+7. **Post Comment**: Submits comment to Instagram
+8. **Save to Database**: Records interaction in MongoDB
+9. **Human Delays**: Waits random time before next action
+10. **Repeat**: Moves to next post/account
+
+### Database Schema
+
+**PostMemory Collection** (prevents duplicates):
+```json
+{
+  "platform": "instagram",
+  "targetAccount": "username",
+  "postId": "unique_post_id",
+  "postUrl": "https://instagram.com/p/...",
+  "captionLength": 245,
+  "caption": "Original post caption...",
+  "commentText": "AI-generated comment...",
+  "wasSuccessful": true,
+  "commentedAt": "2025-10-15T10:30:00.000Z"
+}
+```
+
+## Troubleshooting
+
+### "Failed to login to Instagram"
+- Verify credentials in `.env` file
+- Check if account requires 2FA (not yet supported)
+- Try logging in manually to verify account isn't locked
+
+### "MongoDB connection failed"
+- Ensure MongoDB is running: `docker ps`
+- Check MongoDB URI in `.env`
+- Try restarting: `docker-compose restart`
+
+### "OpenRouter API error"
+- Verify API key is correct
+- Check account has credits at https://openrouter.ai/credits
+- Try alternative model in config
+
+### "No posts found"
+- Target account may be private
+- Account may have no recent posts
+- Check Instagram session is valid
+
+## Docker Commands
+
+```bash
+# Start MongoDB
+docker-compose up -d
+
+# Check status
+docker ps
+
+# View logs
+docker logs instagram-ai-mongodb
+
+# Stop MongoDB
+docker-compose down
+
+# Stop and remove data
+docker-compose down -v
+```
+
+## Security & Best Practices
+
+### Rate Limiting
+- Built-in delays to avoid Instagram rate limits
+- Random timing to appear more human
+- Configurable intervals between actions
+
+### Session Management
+- Cookies saved in MongoDB
+- Reduces login frequency
+- Maintains session across restarts
+
+### Privacy
+- All data stored locally in MongoDB
+- No external analytics
+- Full control over your data
 
 ## Project Structure
 
-- **src/client**: Contains the main logic for interacting with social media platforms like Instagram.
-- **src/config**: Configuration files, including the logger setup.
-- **src/utils**: Utility functions for handling errors, cookies, data saving, etc.
-- **src/Agent**: Contains the AI agent logic and training scripts.
-- **src/Agent/training**: Training scripts for the AI agent.
-- **src/Agent/schema**: Schema definitions for AI-generated content and database models.
-- **src/test**: Contains test data and scripts, such as example tweets.
-
-## Logging
-
-The project uses a custom logger to log information, warnings, and errors. Logs are saved in the [logs](http://_vscodecontentref_/3) directory.
-
-## Error Handling
-
-Process-level error handlers are set up to catch unhandled promise rejections, uncaught exceptions, and process warnings. Errors are logged using the custom logger.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+```
+instagram-marketing-ai-agent/
+├── src/
+│   ├── client/                 # Platform integrations
+│   │   ├── Instagram.ts        # Main Instagram client
+│   │   └── IG-bot/IgClient.ts  # Instagram automation logic
+│   ├── services/               # Core business logic
+│   │   ├── smart-comment.ts    # Smart commenting system
+│   │   ├── scheduler.ts        # Automated scheduling
+│   │   ├── ai-provider.ts      # AI provider abstraction
+│   │   └── openrouter.ts       # OpenRouter integration
+│   ├── models/                 # Database models
+│   │   ├── PostMemory.ts       # Comment tracking
+│   │   ├── AgentMemory.ts      # AI memory/context
+│   │   └── Cookie.ts           # Session management
+│   ├── config/                 # Configuration
+│   │   ├── botConfig.ts        # Bot settings
+│   │   ├── logger.ts           # Logging setup
+│   │   └── db.ts               # MongoDB connection
+│   ├── Agent/                  # AI training
+│   │   ├── training/           # Training scripts
+│   │   └── characters/         # AI personality profiles
+│   ├── app.ts                  # Express app
+│   └── index.ts                # Entry point
+├── docker-compose.yml          # Docker configuration
+├── package.json                # Dependencies
+├── .env                        # Environment variables
+└── README.md                   # This file
+```
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+MIT License - See LICENSE file for details
 
-## Stargazers
-Thank you to all our supporters!
+## Disclaimer
 
-[![Star History Chart](https://api.star-history.com/svg?repos=David-patrick-chuks/Riona-AI-Agent&type=Date)](https://www.star-history.com/#David-patrick-chuks/Riona-AI-Agent&Date)
+This tool is for educational purposes and personal use. Use responsibly and in compliance with Instagram's Terms of Service. The developers are not responsible for any misuse or account restrictions resulting from the use of this software.
 
-## 
 
-<p align="center">
-Built with ❤️ by David Patrick 
-</p>

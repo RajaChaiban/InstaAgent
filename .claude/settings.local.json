@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(tree:*)",
+      "Bash(npm install:*)",
+      "Bash(npm start)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(powershell:*)",
+      "Bash(test:*)",
+      "Bash(Select-Object Name)",
+      "Bash(npm run build)",
+      "Bash(echo:*)",
+      "Bash(find \"c:\\Users\\rajac\\OneDrive\\Desktop\\CallSub\\Marketing_Automation\\Marketing Ai Agent\" -not -path \"*/node_modules/*\" -not -path \"*/.git/*\" -type f -exec wc -c {} +)",
+      "Bash(awk '{print $5, $9}')"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

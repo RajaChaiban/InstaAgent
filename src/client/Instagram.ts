@@ -1,13 +1,14 @@
 import { IgClient } from './IG-bot/IgClient';
 import logger from '../config/logger';
+import { botConfig } from '../config/botConfig';
+
+import { smartCommentService } from '../services/smart-comment';
 
 let igClient: IgClient | null = null;
-let lastCredentials: { username: string, password: string } | null = null;
 
-export const getIgClient = async (username?: string, password?: string): Promise<IgClient> => {
-    if (!igClient || (username && password && (!lastCredentials || lastCredentials.username !== username || lastCredentials.password !== password))) {
-        igClient = new IgClient(username, password);
-        lastCredentials = { username: username || '', password: password || '' };
+export const getIgClient = async (): Promise<IgClient> => {
+    if (!igClient) {
+        igClient = new IgClient();
         try {
             await igClient.init();
         } catch (error) {
@@ -18,6 +19,11 @@ export const getIgClient = async (username?: string, password?: string): Promise
     return igClient;
 };
 
+export const runBot = async () => {
+    logger.info("Manual bot run triggered...");
+    await smartCommentService.processTargets(botConfig.target.accounts);
+};
+
 export const closeIgClient = async () => {
     if (igClient) {
         await igClient.close();
@@ -25,4 +31,14 @@ export const closeIgClient = async () => {
     }
 };
 
-export { scrapeFollowersHandler } from './IG-bot/IgClient'; 
+// Handler for scraping followers (used by API)
+export const scrapeFollowersHandler = async (targetAccount: string, maxFollowers: number) => {
+    const client = await getIgClient();
+    try {
+        const followers = await client.scrapeFollowers(targetAccount, maxFollowers);
+        return followers;
+    } catch (error) {
+        logger.error(`Failed to scrape followers for ${targetAccount}:`, error);
+        throw error;
+    }
+};

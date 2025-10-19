@@ -1,5 +1,5 @@
 {
-  "name": "riona-ai-agent",
+  "name": "instagram-marketing-ai-agent",
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
@@ -9,10 +9,10 @@
     "train:audio": "tsc && node build/Agent/training/TrainWithAudio.js",
     "train:youtube": "tsc && node build/Agent/training/youtubeURL.js"
   },
-  "keywords": [],
+  "keywords": ["instagram", "automation", "ai", "marketing", "social-media", "bot"],
   "author": "",
   "license": "ISC",
-  "description": "Riona-AI-Agent is an AI-powered automation tool designed to interact with various social media platforms.",
+  "description": "Instagram Marketing AI Agent - An intelligent automation platform for Instagram engagement using AI-powered commenting, smart filtering, and automated scheduling.",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.9",
@@ -59,6 +59,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mime-types": "^2.1.4",
+    "@types/node-cron": "^3.0.11",
     "@types/pdf-parse": "^1.1.4",
     "@types/puppeteer": "^5.4.7",
     "@types/readline-sync": "^1.4.8",
